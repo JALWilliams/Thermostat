@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>thermostat</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    
+    <section id= 'main'>
+    </section>
+      <script>
+        function getPostData(){
+          return fetch('https:api.openweathermap.org/data/2.5/weather?lat=51.5&lon=-0.12&appid=e7bf2dc63ec1154a9030122d65ad6aa2').then(response => {
+            return response.json();    
+          })
+        }
+
+        function renderPost(postData){
+          let postHeadingHTML = `<h1> ${postData.name} </h1>`;
+          let postTemperature = `<h4> Temperature: ${postData.main.temp}</h4>`;
+          let postDescritpion = `<p> Description: ${postData.weather[0].description}</p>`;
+          return `${postHeadingHTML}${postTemperature}${postDescritpion}`;
+        }
+
+        getPostData().then(post=>{
+          let rendered = renderPost(post);
+          document.getElementById('main').innerHTML = rendered;
+        })
+      </script>
+
+    <hr style="width:50%;text-align:left;margin-left:0">
+
+    <section>
+    
+      <div class = 'split left'> 
+        <div class = 'centered'>  
+          <h1 id="temperature">Temperature</h1>
+        </div>
+      </div>
+
+      <div class = 'split right'> 
+        <div class = 'centered'>  
+          <p>
+            <ul>
+            <ul><button id="temperature-up" class= 'button'>+</button> <button id="temperature-down" class= 'button'>-</button></ul>
+            <ul><button id="temperature-reset" >reset</button></ul>
+            <h4>power saving mode is <span id="power-saving-status">on</span></h4>
+            <button id="powersaving-on" >PSM on</button>
+            <button id="powersaving-off" >PSM off</button>
+          </ul>
+          </p>
+        </div>
+      </div>
+    
+    </section>
+  
+    <script src="src/thermostat.js"></script>
+    <script src="interface.js"></script>
+  </body>
+</html>
